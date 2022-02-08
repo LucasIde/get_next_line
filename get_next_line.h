@@ -6,7 +6,7 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:07:26 by lide              #+#    #+#             */
-/*   Updated: 2022/02/04 14:58:02 by lide             ###   ########.fr       */
+/*   Updated: 2022/02/08 15:10:26 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,9 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen(char *s);
+char	*ft_strdup(char *s);
+int		ft_find(char *s);
 
 #endif

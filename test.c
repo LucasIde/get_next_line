@@ -24,13 +24,17 @@ int ft_strlen(char *s)
 	return (i);
 }
 
-char *ft_calloc(char *s)
+char *ft_strdup(char *s)
 {
 	char *save;
 	int len;
 	int i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
+	if (s[i] == '\n')
+		i++;
 	len = ft_strlen(s);
 	save = malloc(sizeof(char) * len);
 	if (!save)
@@ -46,6 +50,7 @@ char *ft_calloc(char *s)
 char *print(int o)
 {
 	static char	*save = 0;
+	char		*line;
 	char		*s;
 	int			ct;
 
@@ -54,10 +59,12 @@ char *print(int o)
 		return (NULL);
 	read(o, s, BUFFER_SIZE);
 	ct = ft_find(s);
-	save = ft_calloc(&s[ct]);
+	line = ft_strdup(&s[ct]);
 	if (!save)
 		return (NULL);
-	s[BUFFER_SIZE + 1] = 0;
+	save = line;
+	free(line);
+	s[ct] = 0;
 	return (s);
 }
 
@@ -76,3 +83,27 @@ int main(void)
 	}
 	return (0);
 }
+
+
+// #include "get_next_line.h"
+
+// char *ft_recup(char *save)
+// {
+// 	char	*line
+// 	int		len;
+
+// 	if (save != 0);
+// 	{
+// 		len = ft_strlen(save);
+// 		line = malloc(sizeof(char) * (len + 1));
+// 		if (!line)
+// 			return (NULL);
+// 		//copy save to line
+// 		//free save
+// 	}
+// 	else
+// 	{
+// 		line = malloc(sizeof(char));
+// 		line[0] = 0;
+// 	}
+// }
