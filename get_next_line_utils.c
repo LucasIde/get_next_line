@@ -6,7 +6,7 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:08:17 by lide              #+#    #+#             */
-/*   Updated: 2022/02/08 15:56:43 by lide             ###   ########.fr       */
+/*   Updated: 2022/02/09 18:17:01 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = malloc(sizeof(char));
+		if (!s1)
+			return (NULL);
 		s1[0] = 0;
 	}
-	if (!s2)
-		return (NULL);
 	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!s3)
 		return (NULL);
@@ -33,10 +33,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s1[++i])
 		s3[i] = s1[i];
 	while (s2[++j])
-	{
-		s3[i] = s2[j];
-		i++;
-	}
+		s3[i++] = s2[j];
 	s3[i] = 0;
 	free(s1);
 	return (s3);
@@ -46,6 +43,8 @@ int	ft_strlen(char *s)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;

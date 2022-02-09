@@ -6,7 +6,4 @@ un test
  pour voir si tout fonctionne
  correctement !!
 
-
-
-
 aller salut

@@ -6,13 +6,28 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:08:24 by lide              #+#    #+#             */
-/*   Updated: 2022/02/08 16:17:34 by lide             ###   ########.fr       */
+/*   Updated: 2022/02/09 18:16:58 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_read(int fd)
+int	backspace(char *s)
+{
+	int	ct;
+
+	if (!s)
+		return (1);
+	ct = -1;
+	while (s[++ct])
+	{
+		if (s[ct] == '\n')
+			return (0);
+	}
+	return (1);
+}
+
+char	*ft_read(int fd,char *save)
 {
 	char	*str;
 	int		i;
@@ -20,10 +35,25 @@ char	*ft_read(int fd)
 	str = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!str)
 		return (NULL);
-	i = read(fd, str, BUFFER_SIZE);
-	if (i == -1)
+	i = 1;
+	while (backspace(save) && i)
+	{
+		i = read(fd, str, BUFFER_SIZE);
+		if (i == -1)
+		{
+			free(str);
+			return (NULL);
+		}
+		str[BUFFER_SIZE] = 0;
+		save = ft_strjoin(save, str);
+		if (!save || !*save)
+			return (NULL);
+	}
+	free(str);
+	str = ft_strdup(save);
+	free(save);
+	if (!str)
 		return (NULL);
-	str[BUFFER_SIZE] = 0;
 	return (str);
 }
 
@@ -34,18 +64,15 @@ char	*get_next_line(int fd)
 	char		*s;
 	int			len;
 
-	str = ft_read(fd);
+	str = ft_read(fd, save);
 	if (!str)
 		return (NULL);
-	s = ft_strjoin(save, str);
-	if (!s || !*s)
-		return (NULL);
+	len = ft_find(str);
+	save = ft_strdup(&str[len]);
+	str[len] = 0;
+	s = ft_strdup(str);
 	free(str);
-	len = ft_find(s);
-	save = ft_strdup(&s[len]);
-	s[len] = 0;
-	str = ft_strdup(s);
-	if (!str)
+	if (!s)
 		return (NULL);
-	return (str);
+	return (s);
 }

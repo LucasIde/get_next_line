@@ -107,3 +107,71 @@ int main(void)
 // 		line[0] = 0;
 // 	}
 // }
+
+
+/*#include "get_next_line.h"
+
+int	backspace(char *s)
+{
+	int	ct;
+	int	verif;
+
+	ct = -1;
+	verif = 1;
+	while (s[++ct])
+	{
+		if (s[ct] == '\n')
+			verif = 0;
+	}
+	return (verif);
+}
+
+char	*ft_read(int fd,char *save)
+{
+	char	*str;
+	int		i;
+	int		end;
+
+	end = 1;
+	while (end)
+	{
+		str = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		if (!str)
+			return (NULL);
+		i = read(fd, str, BUFFER_SIZE);
+		if (i == -1)
+			return (NULL);
+		str[BUFFER_SIZE] = 0;
+		save = ft_strjoin(save, str);
+		free(str);
+			if (!save || !*save)
+			return (NULL);
+		end = backspace(save);
+	}
+	str = ft_strdup(save);
+	free(save);
+	if (!str)
+		return (NULL);
+	return (str);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*save;
+	char		*str;
+	char		*s;
+	int			len;
+
+	str = ft_read(fd, save);
+	if (!str)
+		return (NULL);
+	len = ft_find(str);
+	save = ft_strdup(&str[len]);
+	str[len] = 0;
+	s = ft_strdup(str);
+	free(str);
+	if (!s)
+		return (NULL);
+	return (s);
+}
+*/
