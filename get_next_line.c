@@ -6,7 +6,7 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:08:24 by lide              #+#    #+#             */
-/*   Updated: 2022/02/09 18:16:58 by lide             ###   ########.fr       */
+/*   Updated: 2022/02/10 20:20:05 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ int	backspace(char *s)
 	return (1);
 }
 
-char	*ft_read(int fd,char *save)
+char	*ft_read(int fd, char *save)
 {
 	char	*str;
 	int		i;
-
-	str = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	str = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!str)
 		return (NULL);
 	i = 1;
@@ -44,10 +43,8 @@ char	*ft_read(int fd,char *save)
 			free(str);
 			return (NULL);
 		}
-		str[BUFFER_SIZE] = 0;
-		save = ft_strjoin(save, str);
-		if (!save || !*save)
-			return (NULL);
+		str[i] = 0;
+		save = ft_strjoin(save, str, -1, -1);
 	}
 	free(str);
 	str = ft_strdup(save);
@@ -64,6 +61,8 @@ char	*get_next_line(int fd)
 	char		*s;
 	int			len;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	str = ft_read(fd, save);
 	if (!str)
 		return (NULL);
@@ -72,7 +71,5 @@ char	*get_next_line(int fd)
 	str[len] = 0;
 	s = ft_strdup(str);
 	free(str);
-	if (!s)
-		return (NULL);
 	return (s);
 }

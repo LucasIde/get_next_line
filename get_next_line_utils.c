@@ -6,16 +6,14 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:08:17 by lide              #+#    #+#             */
-/*   Updated: 2022/02/09 18:17:01 by lide             ###   ########.fr       */
+/*   Updated: 2022/02/10 20:20:01 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int i, int j)
 {
-	int		i;
-	int		j;
 	char	*s3;
 
 	if (!s1)
@@ -27,9 +25,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!s3)
+	{
+		free(s1);
 		return (NULL);
-	i = -1;
-	j = -1;
+	}
 	while (s1[++i])
 		s3[i] = s1[i];
 	while (s2[++j])
@@ -57,6 +56,8 @@ char	*ft_strdup(char *s)
 	int		len;
 	int		i;
 
+	if (!s || !*s)
+		return (NULL);
 	i = 0;
 	len = ft_strlen(s);
 	save = malloc(sizeof(char) * len + 1);
@@ -75,10 +76,14 @@ int	ft_find(char *s)
 {
 	int	ct;
 
+	if (!s)
+		return (0);
 	ct = 0;
-	while (s[ct] && s[ct] != '\n')
+	while (s[ct])
+	{
+		if (s[ct] == '\n')
+			return (ct + 1);
 		ct++;
-	if (s[ct] == '\n')
-		ct++;
+	}
 	return (ct);
 }

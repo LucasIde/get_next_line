@@ -4,17 +4,19 @@
 
 int main(void)
 {
-	int o;
-	char *tmp;
+    // printf("salut");
+    char    *str;
+    int    fd;
 
-	o = open("text.txt", O_RDONLY);
-	tmp = get_next_line(o);
-	while (tmp)
-	{
-		// printf("%s", tmp);
-	free(tmp);
-	tmp = get_next_line(o);
-	}
-	// printf("fin du programme");
-	return (0);
+    // fd = open("text.txt", O_RDONLY);
+	// write(1, "PAR ICI\n", 8);
+    fd = 0;
+    while ((str = get_next_line(fd)))
+    {
+		// write(1, str, ft_strlen(str));
+        printf("%s", str);
+        free(str);
+    }
+    close(fd);
+    return (0);
 }
