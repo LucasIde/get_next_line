@@ -1,5 +1,4 @@
 #include "get_next_line.h"
-#include <stdio.h>
 
 int	backspace(char *s)
 {
@@ -20,8 +19,6 @@ int	ft_find(char *s)
 {
 	int	ct;
 
-	if (!s)
-		return (0);
 	ct = 0;
 	while (s[ct])
 	{
@@ -48,6 +45,7 @@ char	*ft_read(int fd, char *save)
 {
 	char	*str;
 	int		i;
+
 	str = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!str)
 		return (NULL);
@@ -62,12 +60,13 @@ char	*ft_read(int fd, char *save)
 		}
 		str[i] = 0;
 		save = ft_strjoin(save, str, -1, -1);
+		if (!save)
+			return (NULL);
 	}
 	free(str);
 	return (save);
 }
-
-char *ft_strjoin(char *s1, char *s2, int i, int j)
+char	*ft_strjoin(char *s1, char *s2, int i, int j)
 {
 	char	*s3;
 
@@ -75,61 +74,75 @@ char *ft_strjoin(char *s1, char *s2, int i, int j)
 	{
 		s3 = malloc(sizeof(char) * (ft_strlen(s2) + 1));
 		if (!s3)
-			return (0);
+			return (NULL);
 		while (s2[++i])
 			s3[i] = s2[i];
-		s3[i] = 0;
-		return (s3);
 	}
 	else
 	{
 		s3 = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 		if (!s3)
-			return (0);
+			free(s1);
+		if (!s3)
+			return (NULL);
 		while (s1[++i])
 			s3[i] = s1[i];
 		while (s2[++j])
 			s3[i++] = s2[j];
-		s3[i] = 0;
 		free(s1);
-		return (s3);
 	}
+	s3[i] = 0;
+	return (s3);
 }
 
-char *ft_split(char *save, char **line,int j)
+
+char *ft_line(char *save, int len)
 {
 	char *s1;
-	char *s2;
-	int len;
 	int i;
 
 	if (!save || !*save)
 		return (NULL);
-	i = -1;
-	len = ft_find(save);
 	s1 = malloc(sizeof(char) * (len + 1));
 	if (!s1)
+	{
+		free(save);
 		return (NULL);
+	}
+	i = -1;
 	while (++i < len)
 		s1[i] = save[i];
-	s1[i++] = 0;
-	len = ft_strlen(&save[len]);
-	s2 = malloc(sizeof(char) * (len + 1));
-	if (!s2)
+	s1[i] = 0;
+	return (s1);
+}
+
+char *ft_static(char *save, int len)
+{
+	char	*s2;
+	int		len_2;
+	int		j;
+
+	if (!save || !*save)
 		return (NULL);
-	while (save[i])
-		s2[++j] = save[i];
+	len_2 = ft_strlen(&save[len]);
+	s2 = malloc(sizeof(char) * (len_2 + 1));
+	if (!s2)
+	{
+		free(save);
+		return (NULL);
+	}
+	j = 0;
+	while (save[len])
+		s2[j++] = save[len++];
 	s2[j] = 0;
 	free(save);
-	line = &s1;
-	return (s1);
+	return (s2);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*save;
 	char		*line;
-	char		*s;
 	int			len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -137,11 +150,12 @@ char	*get_next_line(int fd)
 	save = ft_read(fd, save);
 	if (!save)
 		return (NULL);
-	save = ft_split(save, &line, -1);
-	if (!save)
-	{
-		free(save);
+	len = ft_find(save);
+	line = ft_line(save, len);
+	if (!line)
 		return (NULL);
-	}
+	save = ft_static(save, len);
+	if (!save)
+		return (NULL);
 	return (line);
 }
