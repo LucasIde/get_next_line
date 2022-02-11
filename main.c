@@ -9,8 +9,8 @@ int main(void)
     char    *str;
     int    fd;
 
-    // fd = open("text.txt", O_RDONLY);
-    fd = 0;
+    fd = open("text.txt", O_RDONLY);
+    // fd = 0;
     while ((str = get_next_line(fd)))
     {
         printf("%s", str);

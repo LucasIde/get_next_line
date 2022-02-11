@@ -1,177 +1,145 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <fcntl.h>
+// #include <unistd.h>
+// #include <stdlib.h>
+// #include "get_next_line.h"
 
+// int	backspace(char *s)
+// {
+// 	int	ct;
 
-int ft_find(char *s)
-{
-	int	ct;
+// 	if (!s)
+// 		return (1);
+// 	ct = -1;
+// 	while (s[++ct])
+// 	{
+// 		if (s[ct] == '\n')
+// 			return (0);
+// 	}
+// 	return (1);
+// }
 
-	ct = 0;
-	while(s[ct] && s[ct] != '\n')
-		ct++;
-	return (ct);
-}
+// char	*ft_read(int fd, char *save)
+// {
+// 	char	*str;
+// 	int		i;
+// 	str = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+// 	if (!str)
+// 		return (NULL);
+// 	i = 1;
+// 	while (backspace(save) && i)
+// 	{
+// 		i = read(fd, str, BUFFER_SIZE);
+// 		if (i == -1)
+// 		{
+// 			free(str);
+// 			return (NULL);
+// 		}
+// 		str[i] = 0;
+// 		save = ft_strjoin(save, str, -1, -1);
+// 	}
+// 	free(str);
+// 	str = ft_strdup(save);
+// 	free(save);
+// 	if (!str)
+// 		return (NULL);
+// 	return (str);
+// }
 
-int ft_strlen(char *s)
-{
-	int i;
+// char	*get_next_line(int fd)
+// {
+// 	static char	*save;
+// 	char		*str;
+// 	char		*s;
+// 	int			len;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char *ft_strdup(char *s)
-{
-	char *save;
-	int len;
-	int i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (s[i] == '\n')
-		i++;
-	len = ft_strlen(s);
-	save = malloc(sizeof(char) * len);
-	if (!save)
-		return (NULL);
-	while (i < len)
-	{
-		save[i] = s[i];
-		i++;
-	}
-	return (save);
-}
-
-char *print(int o)
-{
-	static char	*save = 0;
-	char		*line;
-	char		*s;
-	int			ct;
-
-	s = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!s)
-		return (NULL);
-	read(o, s, BUFFER_SIZE);
-	ct = ft_find(s);
-	line = ft_strdup(&s[ct]);
-	if (!save)
-		return (NULL);
-	save = line;
-	free(line);
-	s[ct] = 0;
-	return (s);
-}
-
-int main(void)
-{
-	int o;
-	char *tmp;
-
-	o = open("text.txt", O_RDONLY);
-	tmp = print(o);
-	while (tmp)
-	{
-		printf("%s\n", tmp);
-		free(tmp);
-		tmp = print(o);
-	}
-	return (0);
-}
-
+// 	if (fd < 0 || BUFFER_SIZE <= 0)
+// 		return (NULL);
+// 	str = ft_read(fd, save);
+// 	if (!str)
+// 		return (NULL);
+// 	len = ft_find(str);
+// 	save = ft_strdup(&str[len]);
+// 	str[len] = 0;
+// 	s = ft_strdup(str);
+// 	free(str);
+// 	return (s);
+// }
 
 // #include "get_next_line.h"
 
-// char *ft_recup(char *save)
+// char	*ft_strjoin(char *s1, char *s2, int i, int j)
 // {
-// 	char	*line
-// 	int		len;
+// 	char	*s3;
 
-// 	if (save != 0);
+// 	if (!s1)
 // 	{
-// 		len = ft_strlen(save);
-// 		line = malloc(sizeof(char) * (len + 1));
-// 		if (!line)
+// 		s1 = malloc(sizeof(char));
+// 		if (!s1)
 // 			return (NULL);
-// 		//copy save to line
-// 		//free save
+// 		s1[0] = 0;
 // 	}
-// 	else
+// 	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+// 	if (!s3)
 // 	{
-// 		line = malloc(sizeof(char));
-// 		line[0] = 0;
+// 		free(s1);
+// 		return (NULL);
 // 	}
+// 	while (s1[++i])
+// 		s3[i] = s1[i];
+// 	while (s2[++j])
+// 		s3[i++] = s2[j];
+// 	s3[i] = 0;
+// 	free(s1);
+// 	return (s3);
 // }
 
+// int	ft_strlen(char *s)
+// {
+// 	int	i;
 
-/*#include "get_next_line.h"
+// 	if (!s)
+// 		return (0);
+// 	i = 0;
+// 	while (s[i])
+// 		i++;
+// 	return (i);
+// }
 
-int	backspace(char *s)
-{
-	int	ct;
-	int	verif;
+// char	*ft_strdup(char *s)
+// {
+// 	char	*save;
+// 	int		len;
+// 	int		i;
 
-	ct = -1;
-	verif = 1;
-	while (s[++ct])
-	{
-		if (s[ct] == '\n')
-			verif = 0;
-	}
-	return (verif);
-}
+// 	if (!s || !*s)
+// 		return (NULL);
+// 	i = 0;
+// 	len = ft_strlen(s);
+// 	save = malloc(sizeof(char) * len + 1);
+// 	if (!save)
+// 		return (NULL);
+// 	save[len] = 0;
+// 	while (s[i])
+// 	{
+// 		save[i] = s[i];
+// 		i++;
+// 	}
+// 	return (save);
+// }
 
-char	*ft_read(int fd,char *save)
-{
-	char	*str;
-	int		i;
-	int		end;
+// int	ft_find(char *s)
+// {
+// 	int	ct;
 
-	end = 1;
-	while (end)
-	{
-		str = malloc(sizeof(char) * BUFFER_SIZE + 1);
-		if (!str)
-			return (NULL);
-		i = read(fd, str, BUFFER_SIZE);
-		if (i == -1)
-			return (NULL);
-		str[BUFFER_SIZE] = 0;
-		save = ft_strjoin(save, str);
-		free(str);
-			if (!save || !*save)
-			return (NULL);
-		end = backspace(save);
-	}
-	str = ft_strdup(save);
-	free(save);
-	if (!str)
-		return (NULL);
-	return (str);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*save;
-	char		*str;
-	char		*s;
-	int			len;
-
-	str = ft_read(fd, save);
-	if (!str)
-		return (NULL);
-	len = ft_find(str);
-	save = ft_strdup(&str[len]);
-	str[len] = 0;
-	s = ft_strdup(str);
-	free(str);
-	if (!s)
-		return (NULL);
-	return (s);
-}
-*/
+// 	if (!s)
+// 		return (0);
+// 	ct = 0;
+// 	while (s[ct])
+// 	{
+// 		if (s[ct] == '\n')
+// 			return (ct + 1);
+// 		ct++;
+// 	}
+// 	return (ct);
+// }

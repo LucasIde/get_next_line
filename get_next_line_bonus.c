@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/04 12:08:24 by lide              #+#    #+#             */
-/*   Updated: 2022/02/11 17:16:43 by lide             ###   ########.fr       */
+/*   Created: 2022/02/11 18:09:37 by lide              #+#    #+#             */
+/*   Updated: 2022/02/11 18:23:57 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strjoin(char *s1, char *s2, int i, int j)
 {
@@ -69,21 +69,21 @@ char	*ft_read(int fd, char *save)
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
+	static char	*save[10240];
 	char		*line;
 	int			len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	save = ft_read(fd, save);
-	if (!save)
+	save[fd] = ft_read(fd, save[fd]);
+	if (!save[fd])
 		return (NULL);
-	len = ft_find(save);
-	line = ft_line(save, len);
+	len = ft_find(save[fd]);
+	line = ft_line(save[fd], len);
 	if (!line)
 		return (NULL);
-	save = ft_static(save, len);
-	if (!save)
+	save[fd] = ft_static(save[fd], len);
+	if (!save[fd])
 		return (NULL);
 	return (line);
 }
