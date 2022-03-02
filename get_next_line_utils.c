@@ -6,7 +6,7 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 12:08:17 by lide              #+#    #+#             */
-/*   Updated: 2022/02/11 18:09:19 by lide             ###   ########.fr       */
+/*   Updated: 2022/03/02 16:52:29 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_line(char *save, int len)
 	return (s1);
 }
 
-char	*ft_static(char *save, int len)
+char	*ft_save(char *save, int len)
 {
 	char	*s2;
 	int		len_2;

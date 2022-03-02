@@ -6,7 +6,7 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 18:09:37 by lide              #+#    #+#             */
-/*   Updated: 2022/02/11 18:53:57 by lide             ###   ########.fr       */
+/*   Updated: 2022/03/02 16:52:30 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ char	*ft_read(int fd, char *save)
 		str[i] = 0;
 		save = ft_strjoin(save, str, -1, -1);
 		if (!save)
+		{
+			free(str);
 			return (NULL);
+		}
 	}
 	free(str);
 	return (save);
@@ -69,7 +72,7 @@ char	*ft_read(int fd, char *save)
 
 char	*get_next_line(int fd)
 {
-	static char	*save[10240];
+	static char	*save[OPEN_MAX];
 	char		*line;
 	int			len;
 
@@ -82,8 +85,11 @@ char	*get_next_line(int fd)
 	line = ft_line(save[fd], len);
 	if (!line)
 		return (NULL);
-	save[fd] = ft_static(save[fd], len);
+	save[fd] = ft_save(save[fd], len);
 	if (!save[fd])
+	{
+		free(line)
 		return (NULL);
+	}
 	return (line);
 }
