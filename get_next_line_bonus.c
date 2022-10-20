@@ -6,7 +6,7 @@
 /*   By: lide <lide@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 18:09:37 by lide              #+#    #+#             */
-/*   Updated: 2022/03/25 14:06:46 by lide             ###   ########.fr       */
+/*   Updated: 2022/10/20 14:03:07 by lide             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 	save[fd] = ft_save(save[fd], len);
 	if (!save[fd])
 	{
-		free(line)
+		free(line);
 		return (NULL);
 	}
 	return (line);
